@@ -23,11 +23,6 @@ public class BookingPage extends WebPage {
     @FindBy(css = "tbody[class='Table_TableBody__1MlII']>tr >td:nth-child(7)")
     protected List <WebElement> bookingTableStatusOption;
 
-//    @FindBy(css = "div[class='toaster'] div[class='styledWrapper toast-content']")
-//    protected WebElement successMessageText;
-
-//    protected String toastMessage;
-
     public BookingPage(WebDriver driver) {
         super(driver);
     }
@@ -37,11 +32,9 @@ public class BookingPage extends WebPage {
         sleepInSeconds(2);
 
         for (int i = 0; i < bookingTableStatusOption.size(); i++) {
+
             String status = bookingTableStatusOption.get(i).getText();
 
-            if (status.equals("Cancelled")) {
-                continue;
-            }
             if (status.equals("Confirmed")) {
                 bookingActionIconButton.get(i).click();
                 sleepInSeconds(2);
