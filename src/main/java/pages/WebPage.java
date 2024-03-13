@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -17,6 +19,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,12 +28,15 @@ public abstract class WebPage {
 
     protected static WebDriver driver;
     protected WebDriverWait wdWait;
+    protected   JavascriptExecutor jse;
+    protected Actions actions;
 
     public WebPage(WebDriver driver) {
         this.driver = driver;
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-
+        jse = (JavascriptExecutor) driver;
         wdWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        actions = new Actions(driver);
     }
 
     public boolean doesElementExist(String cssSelector) {
@@ -52,6 +58,15 @@ public abstract class WebPage {
     public boolean waitUntilExistCss(String cssSelector) {
         try {
             wdWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
+        } catch (TimeoutException ex) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean waitUntilClickable(WebElement element) {
+        try {
+            wdWait.until(ExpectedConditions.elementToBeClickable(element));
         } catch (TimeoutException ex) {
             return false;
         }
@@ -167,8 +182,6 @@ public abstract class WebPage {
 
     public boolean isPageLoaded() {
         FluentWait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(15));
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-
         try {
             fluentWait.until((driver) -> jse.executeScript("return document.readyState").equals("complete"));
         } catch (TimeoutException ex) {
@@ -178,8 +191,17 @@ public abstract class WebPage {
     }
 
     public void forceStopPageLoad() {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.stop()");
+    }
+
+    public void clickByJS(WebElement element) {
+        jse.executeScript("arguments[0].click();", element);
+
+    }
+    public WebElement getRandomWebElementFromList(List<WebElement> list) {
+        Random random = new Random();
+        int randomIndex = random.nextInt(list.size());
+        return list.get(randomIndex);
     }
 
 }

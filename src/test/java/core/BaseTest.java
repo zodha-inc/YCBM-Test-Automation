@@ -66,7 +66,7 @@ public class BaseTest {
     @AfterTest
     public void tearDown() {
         sleepInSeconds(3);
-        driver.quit();
+        //driver.quit();
     }
 
 
