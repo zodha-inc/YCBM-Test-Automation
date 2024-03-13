@@ -58,6 +58,8 @@ public class BaseTest {
             driver.findElement(By.name("password")).sendKeys("123123Aa@");
             driver.findElement(By.cssSelector("form > button:nth-child(3) > span")).click();
             dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
+            dashboardPage.declineCookies();
+            dashboardPage.closeUpgradeOffer();
         }
     }
 
