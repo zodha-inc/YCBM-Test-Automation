@@ -1,12 +1,16 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import javax.swing.text.Element;
 import java.util.List;
 
 public class DuplicateExistingBooking extends WebPage {
+
+   // protected Element element;
 
     @FindBy(css = "div[class='Hint_hintContainer__2PIdR']>button[aria-label='More Actions']")
     protected WebElement actions;
@@ -38,11 +42,14 @@ public class DuplicateExistingBooking extends WebPage {
     @FindBy(css = "div.styledWrapper.toast-content")
     protected WebElement duplicateBookingSaved;
 
+    @FindBy(css = "div[class='Hint_hintContainer__2PIdR'] > button[data-testid='layoutButton']")
+    protected WebElement switchToGridListView;
+
     public DuplicateExistingBooking(WebDriver driver) {
         super(driver);
     }
 
-    public void successfulDuplicateBooking() {
+    public void createDuplicateBooking() {
 
         sleepInSeconds(2);
         actions.click();
@@ -59,8 +66,10 @@ public class DuplicateExistingBooking extends WebPage {
         sleepInSeconds(1);
         editHours.click();
         sleepInSeconds(1);
+        editHours.clear();
+        sleepInSeconds(3);
         editHours.sendKeys("4");
-        sleepInSeconds(1);
+        sleepInSeconds(2);
         editHours.click();
         sleepInSeconds(1);
         saveAllChanges.click();
@@ -70,4 +79,13 @@ public class DuplicateExistingBooking extends WebPage {
 
 
     }
+
+    public void switchToGridListView() {
+        sleepInSeconds(1);
+        switchToGridListView.click();
+        sleepInSeconds(1);
+        switchToGridListView.click();
+        sleepInSeconds(1);
+    }
+    
 }

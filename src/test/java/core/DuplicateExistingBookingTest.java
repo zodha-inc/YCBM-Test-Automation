@@ -11,17 +11,12 @@ public class DuplicateExistingBookingTest extends BaseTest {
 
     protected DuplicateExistingBooking duplicateExistingBooking;
 
-    @BeforeClass
-    public void classSetup() {
-
-    }
-
 
     @Test(priority = 1)
-    public void successfulDupliacteBooking() {
+    public void createDuplicateBookingTest() {
 
         duplicateExistingBooking = PageFactory.initElements(driver, DuplicateExistingBooking.class);
-        duplicateExistingBooking.successfulDuplicateBooking();
+        duplicateExistingBooking.createDuplicateBooking();
         duplicateExistingBooking.sleepInSeconds(2);
 
         SoftAssert softAssert = new SoftAssert();
@@ -29,7 +24,15 @@ public class DuplicateExistingBookingTest extends BaseTest {
         String expectedSuccessMessage = "Your booking page has been saved";
         softAssert.assertEquals(actualSuccessMessage, expectedSuccessMessage, "Success message mismatch");
         softAssert.assertAll();
+    }
 
+    @Test(priority = 2)
+    public void switchToGridListViewTest() {
+
+        duplicateExistingBooking = PageFactory.initElements(driver, DuplicateExistingBooking.class);
+        duplicateExistingBooking.switchToGridListView();
+        duplicateExistingBooking.sleepInSeconds(2);
 
     }
+
 }
