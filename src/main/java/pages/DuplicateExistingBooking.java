@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DuplicateExistingBooking extends WebPage {
 
-   // protected Element element;
+    // protected Element element;
 
     @FindBy(css = "div[class='Hint_hintContainer__2PIdR']>button[aria-label='More Actions']")
     protected WebElement actions;
@@ -87,5 +87,12 @@ public class DuplicateExistingBooking extends WebPage {
         switchToGridListView.click();
         sleepInSeconds(1);
     }
-    
+
+    public void settingBookingOnlineOffline() {
+        sleepInSeconds(1);
+        actions.click();
+        sleepInSeconds(1);
+        actionOptions.get(2).click();
+        sleepInSeconds(1);
+    }
 }
