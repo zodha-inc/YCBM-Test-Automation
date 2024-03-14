@@ -49,15 +49,17 @@ public class BookingCalenderPage extends WebPage {
                 clickElementByJS(selectedTimeSlot);
                 firstNameInput.sendKeys(firstName);
                 emailInput.sendKeys(email);
-                sleepInSeconds(2);
-                clickElementByJS(confirmBookingBtn);
-                try{
-                    securityCheckRefreshBtn.click();
-                    sleepInSeconds(2);
+
+                while(true) {
+                    sleepInSeconds(1);
                     clickElementByJS(confirmBookingBtn);
+                    try {
+                        securityCheckRefreshBtn.click();
+                    } catch (Exception e) {
+                        break;
+                    }
                 }
-                catch (Exception e) {
-                }
+
             } else {
                 System.out.println("Error:time slot list is empty");
             }

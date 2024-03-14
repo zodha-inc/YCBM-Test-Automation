@@ -21,7 +21,7 @@ public class CreateAndDeleteBookingTest extends BaseTest {
 
     @Test(priority = 1)
     public void testCreateBooking() {
-        String firstName = "Aa" + Math.round(Math.random()) * 1000;;
+        String firstName = "Aa" + Math.round(Math.random()* 1000) ;;
         String email = firstName + "@gmail.com";
 
         dashboardPage.gotoBookingsPage();

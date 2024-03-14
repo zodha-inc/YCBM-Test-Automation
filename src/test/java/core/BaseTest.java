@@ -55,11 +55,11 @@ public class BaseTest {
         landingPage = PageFactory.initElements(driver, LandingPage.class);
 
         if(landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
+            dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
+            dashboardPage.declineCookies();
             driver.findElement(By.name("email")).sendKeys(PropertiesUtils.getLocalConfigProperty("userId"));
             driver.findElement(By.name("password")).sendKeys(PropertiesUtils.getLocalConfigProperty("password"));
             driver.findElement(By.cssSelector("form > button:nth-child(3) > span")).click();
-            dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
-            dashboardPage.declineCookies();
             dashboardPage.closeUpgradeOffer();
         }
     }

@@ -207,4 +207,8 @@ public abstract class WebPage {
         jse.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
+    public void scrollToPageBottom() {
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
 }
