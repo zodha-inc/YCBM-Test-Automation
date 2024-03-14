@@ -8,8 +8,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-
-import org.testng.asserts.SoftAssert;
 import pages.DashboardPage;
 import pages.LandingPage;
 import utils.PropertiesUtils;
@@ -19,7 +17,6 @@ public class BaseTest {
     protected static WebDriver driver;
     protected LandingPage landingPage;
     protected DashboardPage dashboardPage;
-    protected SoftAssert softAssert = new SoftAssert();
 
     @BeforeTest
     public void goToLandingPage() {
@@ -34,9 +31,9 @@ public class BaseTest {
 
         String targetBrowser = "chrome"; // Default browser is Chrome
 
-        if(targetBrowserFromMvnCommand != null) {
-           targetBrowser = targetBrowserFromMvnCommand;
-        } else if(targetBrowserFromConfigProperty != null) {
+        if (targetBrowserFromMvnCommand != null) {
+            targetBrowser = targetBrowserFromMvnCommand;
+        } else if (targetBrowserFromConfigProperty != null) {
             targetBrowser = targetBrowserFromConfigProperty;
         }
 
@@ -54,12 +51,12 @@ public class BaseTest {
         driver.get("https://app.youcanbook.me/#/login");
         landingPage = PageFactory.initElements(driver, LandingPage.class);
 
-        if(landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
-            dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
-            dashboardPage.declineCookies();
+        if (landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
+            landingPage.declineCookies();
             driver.findElement(By.name("email")).sendKeys(PropertiesUtils.getLocalConfigProperty("userId"));
             driver.findElement(By.name("password")).sendKeys(PropertiesUtils.getLocalConfigProperty("password"));
             driver.findElement(By.cssSelector("form > button:nth-child(3) > span")).click();
+            dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
             dashboardPage.closeUpgradeOffer();
         }
     }
@@ -73,7 +70,7 @@ public class BaseTest {
 
     public void sleepInSeconds(int seconds) {
         try {
-            Thread.sleep(seconds * 1000);
+            Thread.sleep(seconds * 1000L);
         } catch (InterruptedException ex) {
             System.out.println("Interrupted execption got caught with message, " + ex.getMessage());
         }

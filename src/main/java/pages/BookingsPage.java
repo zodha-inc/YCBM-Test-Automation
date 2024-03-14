@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +33,16 @@ public class BookingsPage extends WebPage {
         return allBookingsList.size();
     }
 
+    public WebElement chooseSpecificBooking(String bookingFirstName) {
+        for (WebElement currentBookingRecordRow:allBookingsList) {
+            WebElement bookingInfoHeaderEle = currentBookingRecordRow.findElement(By.cssSelector("td:nth-child(4) > span"));
+            if(bookingInfoHeaderEle.getText().trim().toLowerCase().contains(bookingFirstName.toLowerCase())) {
+                return bookingInfoHeaderEle;
+            }
+        }
+        return null;
+    }
+
     public void gotoDashBoard() {
         dashBoardNavLink.click();
     }
@@ -46,7 +57,7 @@ public class BookingsPage extends WebPage {
     }
 
     public String getDeleteNoticeToasterText() {
-        if(isElementPresent("div[class='styledWrapper toast-content']")) {
+        if (isElementPresent("div[class='styledWrapper toast-content']")) {
             return deleteNoticeToaster.getText();
         } else {
             return "Error: Delete notice toaster didn't show.";

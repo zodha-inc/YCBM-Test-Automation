@@ -73,7 +73,7 @@ public class BookingCalenderPage extends WebPage {
         return bookingConfirmingMessage.getText();
     }
 
-    public void close(String dashboardWindowHandle) {
+    public void closeCurrentWindowThenSwitchToWindow(String dashboardWindowHandle) {
         driver.close();
         driver.switchTo().window(dashboardWindowHandle);
     }

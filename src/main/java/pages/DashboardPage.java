@@ -10,9 +10,6 @@ import java.util.Set;
 
 public class DashboardPage extends WebPage {
 
-    @FindBy(css = "#hs-eu-cookie-confirmation-button-group > a:nth-child(2)")
-    protected WebElement cookiesDecline;
-
     @FindBy(css = "div[aria-label='Upgrade account'] > div:first-child > button")
     protected WebElement closeUpgradeOfferModel;
 
@@ -26,11 +23,7 @@ public class DashboardPage extends WebPage {
         super(driver);
     }
 
-    public void declineCookies() {
-        if (isElementPresent("#hs-eu-cookie-confirmation-button-group > a:nth-child(2)")) {
-            cookiesDecline.click();
-        }
-    }
+
 
     public void closeUpgradeOffer() {
         if (isElementPresent("div[aria-label='Upgrade account'] > div:first-child > button")) {

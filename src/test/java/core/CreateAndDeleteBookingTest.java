@@ -21,6 +21,7 @@ public class CreateAndDeleteBookingTest extends BaseTest {
 
     @Test(priority = 1)
     public void testCreateBooking() {
+        SoftAssert softAssert = new SoftAssert();
         String firstName = "Aa" + Math.round(Math.random()* 1000) ;;
         String email = firstName + "@gmail.com";
 
@@ -34,10 +35,12 @@ public class CreateAndDeleteBookingTest extends BaseTest {
         softAssert.assertEquals(bookingCalenderPage.getBookingConfirmMessage(),
                 "You'll receive a notification confirming the meeting details shortly.");
 
-        bookingCalenderPage.close(dashBoardWindowHandle);
+        bookingCalenderPage.closeCurrentWindowThenSwitchToWindow(dashBoardWindowHandle);
         dashboardPage.gotoBookingsPage();
         softAssert.assertEquals(bookingsPage.getBookingsListSize() - originBookingsListSize, 1,
                 "Verify if one new booking added into booking list");
+
+        softAssert.assertTrue(bookingsPage.chooseSpecificBooking(firstName) != null,"Verify if the new booking inside booking list");
 
         softAssert.assertAll();
     }

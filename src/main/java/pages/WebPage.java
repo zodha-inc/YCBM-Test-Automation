@@ -20,6 +20,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -27,7 +28,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class WebPage {
     protected static WebDriver driver;
     protected WebDriverWait wdWait;
-    protected   JavascriptExecutor jse;
+    protected JavascriptExecutor jse;
     protected Actions actions;
 
     public WebPage(WebDriver driver) {
@@ -36,6 +37,14 @@ public abstract class WebPage {
         jse = (JavascriptExecutor) driver;
         wdWait = new WebDriverWait(driver, Duration.ofSeconds(15));
         actions = new Actions(driver);
+    }
+
+    public void declineCookies() {
+        String cookiesDeclineCssSelector = "#hs-eu-cookie-confirmation-button-group > a:nth-child(2)";
+        if (isElementPresent(cookiesDeclineCssSelector)) {
+            WebElement cookiesDecline = driver.findElement(By.cssSelector(cookiesDeclineCssSelector));
+            cookiesDecline.click();
+        }
     }
 
     public boolean doesElementExist(String cssSelector) {
@@ -108,7 +117,7 @@ public abstract class WebPage {
         String os = System.getProperty("os.name");
         System.out.println("Operating System : " + os);
 
-        if(os.contains("Windows")) {
+        if (os.contains("Windows")) {
             filePathSaparator = "\\";
         } else if (os.contains("MAC")) {
             filePathSaparator = "/";
@@ -154,7 +163,7 @@ public abstract class WebPage {
 
         double randomNumber = Math.round(1000000);
 
-        File destFile = new File("Screenshots\\"+ failureMethodName + "-screenshot-" + String.valueOf(randomNumber) + ".png");
+        File destFile = new File("Screenshots\\" + failureMethodName + "-screenshot-" + String.valueOf(randomNumber) + ".png");
 
         //Copy file at destination
         try {
@@ -197,6 +206,7 @@ public abstract class WebPage {
         jse.executeScript("arguments[0].click();", element);
 
     }
+
     public WebElement getRandomWebElementFromList(List<WebElement> list) {
         Random random = new Random();
         int randomIndex = random.nextInt(list.size());
