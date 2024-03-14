@@ -42,19 +42,19 @@ public class BookingCalenderPage extends WebPage {
         }
         if (!availableBookingDaysList.isEmpty()) {
             WebElement selectedBookingDay = getRandomWebElementFromList(availableBookingDaysList);
-            clickByJS(selectedBookingDay);
+            clickElementByJS(selectedBookingDay);
             sleepInSeconds(1);
             if (!abailableBookingSlotsList.isEmpty()) {
                 WebElement selectedTimeSlot = getRandomWebElementFromList(abailableBookingSlotsList);
-                clickByJS(selectedTimeSlot);
+                clickElementByJS(selectedTimeSlot);
                 firstNameInput.sendKeys(firstName);
                 emailInput.sendKeys(email);
                 sleepInSeconds(2);
-                clickByJS(confirmBookingBtn);
+                clickElementByJS(confirmBookingBtn);
                 try{
                     securityCheckRefreshBtn.click();
                     sleepInSeconds(2);
-                    clickByJS(confirmBookingBtn);
+                    clickElementByJS(confirmBookingBtn);
                 }
                 catch (Exception e) {
                 }

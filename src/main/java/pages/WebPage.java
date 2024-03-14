@@ -25,7 +25,6 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class WebPage {
-
     protected static WebDriver driver;
     protected WebDriverWait wdWait;
     protected   JavascriptExecutor jse;
@@ -194,7 +193,7 @@ public abstract class WebPage {
         jse.executeScript("window.stop()");
     }
 
-    public void clickByJS(WebElement element) {
+    public void clickElementByJS(WebElement element) {
         jse.executeScript("arguments[0].click();", element);
 
     }
@@ -202,6 +201,10 @@ public abstract class WebPage {
         Random random = new Random();
         int randomIndex = random.nextInt(list.size());
         return list.get(randomIndex);
+    }
+
+    public void scrollToElement(WebElement element) {
+        jse.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
 }

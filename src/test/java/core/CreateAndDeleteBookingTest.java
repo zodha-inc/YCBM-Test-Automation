@@ -1,6 +1,7 @@
 package core;
 
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.BookingCalenderPage;
@@ -20,12 +21,11 @@ public class CreateAndDeleteBookingTest extends BaseTest {
 
     @Test(priority = 1)
     public void testCreateBooking() {
-        String firstName = "AA" + Math.random() * 1000;;
-        String email = firstName + "@gmial.com";
+        String firstName = "Aa" + Math.round(Math.random()) * 1000;;
+        String email = firstName + "@gmail.com";
 
         dashboardPage.gotoBookingsPage();
         int originBookingsListSize = bookingsPage.getBookingsListSize();
-        System.out.println("OriginBookingListSize:" + originBookingsListSize);
 
         bookingsPage.gotoDashBoard();
         String dashBoardWindowHandle = dashboardPage.gotoSelectedBookingPage();
@@ -42,9 +42,15 @@ public class CreateAndDeleteBookingTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test(priority = 22, enabled = false)
+    @Test(priority = 22)
     public void testDeleteExistingBooking() {
         dashboardPage.gotoBookingsPage();
+        int bookingsListSizeBeforeDelete = bookingsPage.getBookingsListSize();
+        bookingsPage.deleteExistingBooking();
+
+        softAssert.assertEquals(bookingsPage.getDeleteNoticeToasterText(),"The booking has been deleted.");
+        int bookingsListSizeAfterDelete = bookingsPage.getBookingsListSize();
+        Assert.assertEquals(bookingsListSizeBeforeDelete-bookingsListSizeAfterDelete,1);
     }
 
 }
