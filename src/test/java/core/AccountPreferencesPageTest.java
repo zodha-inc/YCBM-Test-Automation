@@ -5,6 +5,8 @@ import org.testng.annotations.Test;
 import pages.AccountPreferencesPage;
 
 public class AccountPreferencesPageTest extends BaseTest {
+
+    protected AccountPreferencesPage accountPreferencesPage;
     @Test(priority = 1)
     public void profileButtonIconCheck() {
         accountPreferencesPage = PageFactory.initElements(driver, AccountPreferencesPage.class);
