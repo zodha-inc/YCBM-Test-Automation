@@ -1,11 +1,10 @@
 package pages;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import javax.swing.text.Element;
 import java.util.List;
 
 public class DuplicateExistingBooking extends WebPage {
@@ -28,7 +27,7 @@ public class DuplicateExistingBooking extends WebPage {
     @FindBy(css = "input[data-testid='MONDAY_end_time_0']")
     protected WebElement editHours;
 
-    @FindBy(css = "button[data-testid='TUESDAY_delete_interval']")
+    @FindBy(css = "button[data-testid = 'TUESDAY_delete_interval']")
     protected WebElement deleteBooking;
 
     @FindBy(css = "div.SettingsControl_settingsControl__1_cRQ")
@@ -64,7 +63,10 @@ public class DuplicateExistingBooking extends WebPage {
         sleepInSeconds(1);
         editHours.click();
         sleepInSeconds(1);
-        editHours.sendKeys("4");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].value=''", editHours);
+        sleepInSeconds(2);
+        editHours.sendKeys("4:00 PM");
         sleepInSeconds(2);
         editHours.click();
         sleepInSeconds(1);
@@ -72,7 +74,6 @@ public class DuplicateExistingBooking extends WebPage {
         sleepInSeconds(1);
         gotoDasboard.click();
         sleepInSeconds(1);
-
 
     }
 
