@@ -12,7 +12,12 @@ public class SearchBookingPagesTest extends BaseTest {
     public void searchBookingPages() {
         searchBookingPage = PageFactory.initElements(driver, SearchBookingPage.class);
         searchBookingPage.searchPages();
-        Assert.assertEquals(searchBookingPage.getBookingPageToSearchValue(),
-                searchBookingPage.getSearchedBookingPageText());
+        if(searchBookingPage.getSearchedBookingPageText().contains("no booking")) {
+            Assert.assertEquals(searchBookingPage.getNoBookingPageText(), searchBookingPage.getSearchedBookingPageText());
+        }else {
+            Assert.assertEquals(searchBookingPage.getBookingPageToSearchValue(),
+                    searchBookingPage.getSearchedBookingPageText());
+        }
+
     }
 }
