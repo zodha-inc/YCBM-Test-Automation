@@ -10,8 +10,6 @@ import java.util.List;
 
 public class DuplicateExistingBooking extends WebPage {
 
-    // protected Element element;
-
     @FindBy(css = "div[class='Hint_hintContainer__2PIdR']>button[aria-label='More Actions']")
     protected WebElement actions;
 
@@ -66,8 +64,6 @@ public class DuplicateExistingBooking extends WebPage {
         sleepInSeconds(1);
         editHours.click();
         sleepInSeconds(1);
-        editHours.clear();
-        sleepInSeconds(3);
         editHours.sendKeys("4");
         sleepInSeconds(2);
         editHours.click();
