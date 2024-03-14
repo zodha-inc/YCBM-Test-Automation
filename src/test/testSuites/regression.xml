@@ -3,7 +3,8 @@
 <suite name="Suite1" verbose="1">
     <test name="Nopackage" thread-count="1">
         <classes>
-            <class name="core.DashboardPageTest"/>
+<!--            <class name="core.DashboardPageTest"/>-->
+            <class name="core.BookingsPageTest"/>
         </classes>
     </test>
 
