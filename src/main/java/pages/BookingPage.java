@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import java.util.List;
+import java.util.Set;
 
 public class BookingPage extends WebPage {
 
@@ -58,6 +59,7 @@ public class BookingPage extends WebPage {
 
     public void rebookCancelledBooking() {
         bookingPageButton.click();
+        String currentWindowHandle = driver.getWindowHandle();
         sleepInSeconds(2);
 
 
@@ -71,11 +73,25 @@ public class BookingPage extends WebPage {
                 sleepInSeconds(2);
                 bookingRebookButton.click();
                 sleepInSeconds(2);
+                switchToNewWindow(currentWindowHandle);
+
 
             }
 
         }
 
+    }
+
+    public String switchToNewWindow(String currentWindowHandle) {
+        Set<String > windowHandles = driver.getWindowHandles();
+        String childWindowHandle = "";
+        for (String handle:windowHandles) {
+            if (!handle.equals(currentWindowHandle)) {
+                childWindowHandle = handle;
+                driver.switchTo().window(childWindowHandle);
+            }
+        }
+        return childWindowHandle;
     }
 
 }

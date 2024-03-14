@@ -25,7 +25,9 @@ public class BookingPageTest extends BaseTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement toastMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.toaster div.styledWrapper.toast-content")));
         String actualToastText = toastMessage.getText();
-        Assert.assertEquals(actualToastText ,"The booking has been cancelled.");
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(actualToastText ,"The booking has been cancelled.");
+        softAssert.assertAll();
     }
 
     @Test(priority = 1)
@@ -33,6 +35,15 @@ public class BookingPageTest extends BaseTest {
 
         bookingPage = PageFactory.initElements(driver,BookingPage.class);
         bookingPage.rebookCancelledBooking();
+
+        String expectedTitle = driver.getTitle();
+
+        System.out.println(expectedTitle + " :Expected title of page");
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(expectedTitle,"Select a time · Black coffee");
+        softAssert.assertAll();
+
 
 
     }
