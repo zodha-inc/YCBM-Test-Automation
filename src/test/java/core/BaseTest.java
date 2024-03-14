@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
+import org.testng.asserts.SoftAssert;
 import pages.DashboardPage;
 import pages.LandingPage;
 import utils.PropertiesUtils;
@@ -19,6 +20,7 @@ public class BaseTest {
     protected static WebDriver driver;
     protected LandingPage landingPage;
     protected DashboardPage dashboardPage;
+    protected SoftAssert softAssert = new SoftAssert();
 
     @BeforeTest
     public void goToLandingPage() {

@@ -23,6 +23,9 @@ public class BookingCalenderPage extends WebPage {
     @FindBy(css = "input[data-testid='EMAIL']")
     protected WebElement emailInput;
 
+    @FindBy(css = "div[data-testid='captchaErrorModal'] button")
+    protected WebElement securityCheckRefreshBtn;
+
     @FindBy(css = "div[data-testid='formContent'] button")
     protected WebElement confirmBookingBtn;
 
@@ -47,8 +50,14 @@ public class BookingCalenderPage extends WebPage {
                 firstNameInput.sendKeys(firstName);
                 emailInput.sendKeys(email);
                 sleepInSeconds(2);
-              clickByJS(confirmBookingBtn);
-//                actions.moveToElement(confirmBookingBtn).click(confirmBookingBtn).build().perform();
+                clickByJS(confirmBookingBtn);
+                try{
+                    securityCheckRefreshBtn.click();
+                    sleepInSeconds(2);
+                    clickByJS(confirmBookingBtn);
+                }
+                catch (Exception e) {
+                }
             } else {
                 System.out.println("Error:time slot list is empty");
             }
@@ -58,9 +67,13 @@ public class BookingCalenderPage extends WebPage {
     }
 
     public String getBookingConfirmMessage() {
-        String msg = bookingConfirmingMessage.getText();
+        sleepInSeconds(1);
+        return bookingConfirmingMessage.getText();
+    }
+
+    public void close(String dashboardWindowHandle) {
         driver.close();
-       return msg;
+        driver.switchTo().window(dashboardWindowHandle);
     }
 
 
