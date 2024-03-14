@@ -67,7 +67,7 @@ public class BookingCalenderPage extends WebPage {
     }
 
     public String getBookingConfirmMessage() {
-        sleepInSeconds(1);
+        sleepInSeconds(2);
         return bookingConfirmingMessage.getText();
     }
 

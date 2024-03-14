@@ -1,9 +1,9 @@
 package core;
 
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.BookingCalenderPage;
 import pages.BookingsPage;
 
@@ -44,13 +44,15 @@ public class CreateAndDeleteBookingTest extends BaseTest {
 
     @Test(priority = 22)
     public void testDeleteExistingBooking() {
+        SoftAssert sa = new SoftAssert();
         dashboardPage.gotoBookingsPage();
         int bookingsListSizeBeforeDelete = bookingsPage.getBookingsListSize();
         bookingsPage.deleteExistingBooking();
 
-        softAssert.assertEquals(bookingsPage.getDeleteNoticeToasterText(),"The booking has been deleted.");
+        sa.assertEquals(bookingsPage.getDeleteNoticeToasterText(),"The booking has been deleted.");
         int bookingsListSizeAfterDelete = bookingsPage.getBookingsListSize();
-        Assert.assertEquals(bookingsListSizeBeforeDelete-bookingsListSizeAfterDelete,1);
+        sa.assertEquals(bookingsListSizeBeforeDelete-bookingsListSizeAfterDelete,1);
+        sa.assertAll();
     }
 
 }
