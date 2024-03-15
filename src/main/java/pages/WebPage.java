@@ -204,7 +204,6 @@ public abstract class WebPage {
 
     public void clickElementByJS(WebElement element) {
         jse.executeScript("arguments[0].click();", element);
-
     }
 
     public WebElement getRandomWebElementFromList(List<WebElement> list) {
