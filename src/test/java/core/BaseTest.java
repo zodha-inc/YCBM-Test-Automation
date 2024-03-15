@@ -56,10 +56,10 @@ public class BaseTest {
 
         if(landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
             driver.findElement(By.cssSelector("#hs-eu-cookie-confirmation-button-group > a:nth-child(2)")).click();
-//            driver.findElement(By.name("email")).sendKeys(PropertiesUtils.getLocalConfigProperty("userId"));
-//            driver.findElement(By.name("password")).sendKeys(PropertiesUtils.getLocalConfigProperty("password"));
-            driver.findElement(By.name("email")).sendKeys("john.mird+amitoj@gmail.com");
-            driver.findElement(By.name("password")).sendKeys("123123Aa@");
+           driver.findElement(By.name("email")).sendKeys(PropertiesUtils.getLocalConfigProperty("userId"));
+           driver.findElement(By.name("password")).sendKeys(PropertiesUtils.getLocalConfigProperty("password"));
+//            driver.findElement(By.name("email")).sendKeys("john.mird+amitoj@gmail.com");
+//            driver.findElement(By.name("password")).sendKeys("123123Aa@");
             driver.findElement(By.cssSelector("form > button:nth-child(3) > span")).click();
             dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
             //dashboardPage.declineCookies();
