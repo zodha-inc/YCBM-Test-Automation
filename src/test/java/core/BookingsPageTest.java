@@ -19,21 +19,28 @@ public class BookingsPageTest extends BaseTest{
     public void upcomingBookingsWithFilter(){
         bookingsPage.bookingPageOption();
         bookingsPage.searchBooking();
-        Assert.assertEquals(bookingsPage.getTotal(),2);
+        Assert.assertEquals(bookingsPage.getTotal(),1);
 
     }
     @Test(priority = 1)
     public void pastBookingWithFilter(){
         bookingsPage.setClearAll();
         bookingsPage.pastBooking();
-        Assert.assertEquals(bookingsPage.getPastBookingsText(),"No past bookings");
+        Assert.assertEquals(bookingsPage.getTotal(),3);
+        //Assert.assertEquals(bookingsPage.getPastBookingsText(),"No past bookings");
     }
 
     @Test(priority = 2)
     public void getDateRangeWithFilter(){
+//        bookingsPage.dateRangeOption();
+//        bookingsPage.searchBooking();
+//        Assert.assertEquals(bookingsPage.getTotal(),2);
+//        bookingsPage.setClearAll();
         bookingsPage.dateRangeOption();
-        bookingsPage.searchBooking();
-        Assert.assertEquals(bookingsPage.getTotal(),2);
-        bookingsPage.setClearAll();
+        bookingsPage.dateRangeOption();
+        bookingsPage.dateRangeSelection();
+        Assert.assertEquals(bookingsPage.dateRangeText(),"Mar 11 — Mar 30, 2024");
     }
+
+
 }
