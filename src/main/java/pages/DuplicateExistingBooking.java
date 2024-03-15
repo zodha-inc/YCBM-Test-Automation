@@ -36,9 +36,6 @@ public class DuplicateExistingBooking extends WebPage {
     @FindBy(css = "a.NavBar_navItem__35LWf")
     protected WebElement gotoDasboard;
 
-    @FindBy(css = "div.styledWrapper.toast-content")
-    protected WebElement duplicateBookingSaved;
-
     @FindBy(css = "div[class='Hint_hintContainer__2PIdR'] > button[data-testid='layoutButton']")
     protected WebElement switchToGridListView;
 
@@ -85,11 +82,4 @@ public class DuplicateExistingBooking extends WebPage {
         sleepInSeconds(1);
     }
 
-    public void settingBookingOnlineOffline() {
-        sleepInSeconds(1);
-        actions.click();
-        sleepInSeconds(1);
-        actionOptions.get(2).click();
-        sleepInSeconds(1);
-    }
 }

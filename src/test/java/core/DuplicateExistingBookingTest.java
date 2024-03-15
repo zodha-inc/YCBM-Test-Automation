@@ -26,12 +26,4 @@ public class DuplicateExistingBookingTest extends BaseTest {
 
     }
 
-    @Test(priority = 3)
-    public void settingBookingOnlineOfflineTest() {
-
-        duplicateExistingBooking = PageFactory.initElements(driver, DuplicateExistingBooking.class);
-        duplicateExistingBooking.settingBookingOnlineOffline();
-        duplicateExistingBooking.sleepInSeconds(2);
-    }
-
 }
