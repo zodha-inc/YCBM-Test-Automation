@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -17,20 +19,32 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class WebPage {
-
     protected static WebDriver driver;
     protected WebDriverWait wdWait;
+    protected JavascriptExecutor jse;
+    protected Actions actions;
 
     public WebPage(WebDriver driver) {
         this.driver = driver;
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-
+        jse = (JavascriptExecutor) driver;
         wdWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        actions = new Actions(driver);
+    }
+
+    public void declineCookies() {
+        String cookiesDeclineCssSelector = "#hs-eu-cookie-confirmation-button-group > a:nth-child(2)";
+        if (isElementPresent(cookiesDeclineCssSelector)) {
+            WebElement cookiesDecline = driver.findElement(By.cssSelector(cookiesDeclineCssSelector));
+            cookiesDecline.click();
+        }
     }
 
     public boolean doesElementExist(String cssSelector) {
@@ -52,6 +66,15 @@ public abstract class WebPage {
     public boolean waitUntilExistCss(String cssSelector) {
         try {
             wdWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
+        } catch (TimeoutException ex) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean waitUntilClickable(WebElement element) {
+        try {
+            wdWait.until(ExpectedConditions.elementToBeClickable(element));
         } catch (TimeoutException ex) {
             return false;
         }
@@ -94,7 +117,7 @@ public abstract class WebPage {
         String os = System.getProperty("os.name");
         System.out.println("Operating System : " + os);
 
-        if(os.contains("Windows")) {
+        if (os.contains("Windows")) {
             filePathSaparator = "\\";
         } else if (os.contains("MAC")) {
             filePathSaparator = "/";
@@ -140,7 +163,7 @@ public abstract class WebPage {
 
         double randomNumber = Math.round(1000000);
 
-        File destFile = new File("Screenshots\\"+ failureMethodName + "-screenshot-" + String.valueOf(randomNumber) + ".png");
+        File destFile = new File("Screenshots\\" + failureMethodName + "-screenshot-" + String.valueOf(randomNumber) + ".png");
 
         //Copy file at destination
         try {
@@ -167,8 +190,6 @@ public abstract class WebPage {
 
     public boolean isPageLoaded() {
         FluentWait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(15));
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-
         try {
             fluentWait.until((driver) -> jse.executeScript("return document.readyState").equals("complete"));
         } catch (TimeoutException ex) {
@@ -178,14 +199,25 @@ public abstract class WebPage {
     }
 
     public void forceStopPageLoad() {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.stop()");
     }
 
-    public static void clickElementWithJs(WebDriver driver, WebElement webElement) {
-        JavascriptExecutor jsc = (JavascriptExecutor) driver;
-        jsc.executeScript("arguments[0].click();",webElement);
+    public void clickElementByJS(WebElement element) {
+        jse.executeScript("arguments[0].click();", element);
     }
 
+    public WebElement getRandomWebElementFromList(List<WebElement> list) {
+        Random random = new Random();
+        int randomIndex = random.nextInt(list.size());
+        return list.get(randomIndex);
+    }
+
+    public void scrollToElement(WebElement element) {
+        jse.executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    public void scrollToPageBottom() {
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
 
 }

@@ -2,14 +2,12 @@ package core;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-
 import pages.DashboardPage;
 import pages.LandingPage;
 import utils.PropertiesUtils;
@@ -33,9 +31,9 @@ public class BaseTest {
 
         String targetBrowser = "chrome"; // Default browser is Chrome
 
-        if(targetBrowserFromMvnCommand != null) {
-           targetBrowser = targetBrowserFromMvnCommand;
-        } else if(targetBrowserFromConfigProperty != null) {
+        if (targetBrowserFromMvnCommand != null) {
+            targetBrowser = targetBrowserFromMvnCommand;
+        } else if (targetBrowserFromConfigProperty != null) {
             targetBrowser = targetBrowserFromConfigProperty;
         }
 
@@ -53,14 +51,13 @@ public class BaseTest {
         driver.get("https://app.youcanbook.me/#/login");
         landingPage = PageFactory.initElements(driver, LandingPage.class);
 
-        if(landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
-
+        if (landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
+            landingPage.declineCookies();
             driver.findElement(By.name("email")).sendKeys(PropertiesUtils.getLocalConfigProperty("userId"));
             driver.findElement(By.name("password")).sendKeys(PropertiesUtils.getLocalConfigProperty("password"));
             driver.findElement(By.cssSelector("form > button:nth-child(3) > span")).click();
             
             dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
-            dashboardPage.declineCookies();
             dashboardPage.closeUpgradeOffer();
         }
     }
@@ -68,13 +65,13 @@ public class BaseTest {
     @AfterTest
     public void tearDown() {
         sleepInSeconds(3);
-        driver.quit();
+        //driver.quit();
     }
 
 
     public void sleepInSeconds(int seconds) {
         try {
-            Thread.sleep(seconds * 1000);
+            Thread.sleep(seconds * 1000L);
         } catch (InterruptedException ex) {
             System.out.println("Interrupted execption got caught with message, " + ex.getMessage());
         }
