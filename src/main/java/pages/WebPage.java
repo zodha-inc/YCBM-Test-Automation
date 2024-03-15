@@ -182,4 +182,10 @@ public abstract class WebPage {
         jse.executeScript("window.stop()");
     }
 
+    public static void clickElementWithJs(WebDriver driver, WebElement webElement) {
+        JavascriptExecutor jsc = (JavascriptExecutor) driver;
+        jsc.executeScript("arguments[0].click();",webElement);
+    }
+
+
 }
