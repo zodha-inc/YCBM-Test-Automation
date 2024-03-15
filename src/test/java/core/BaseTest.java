@@ -55,9 +55,6 @@ public class BaseTest {
 
         if(landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
 
-//            driver.findElement(By.name("email")).sendKeys("john.mird+Pradeep@gmail.com");
-//            driver.findElement(By.name("password")).sendKeys("123123Aa@");
-
             driver.findElement(By.name("email")).sendKeys(PropertiesUtils.getLocalConfigProperty("userId"));
             driver.findElement(By.name("password")).sendKeys(PropertiesUtils.getLocalConfigProperty("password"));
 
@@ -71,7 +68,7 @@ public class BaseTest {
     @AfterTest
     public void tearDown() {
         sleepInSeconds(3);
-//        driver.quit();
+        driver.quit();
     }
 
 

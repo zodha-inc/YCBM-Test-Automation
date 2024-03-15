@@ -27,15 +27,10 @@ public class BookingsPageTest extends BaseTest{
         bookingsPage.setClearAll();
         bookingsPage.pastBooking();
         Assert.assertEquals(bookingsPage.getTotal(),3);
-        //Assert.assertEquals(bookingsPage.getPastBookingsText(),"No past bookings");
     }
 
     @Test(priority = 2)
     public void getDateRangeWithFilter(){
-//        bookingsPage.dateRangeOption();
-//        bookingsPage.searchBooking();
-//        Assert.assertEquals(bookingsPage.getTotal(),2);
-//        bookingsPage.setClearAll();
         bookingsPage.dateRangeOption();
         bookingsPage.dateRangeOption();
         bookingsPage.dateRangeSelection();
