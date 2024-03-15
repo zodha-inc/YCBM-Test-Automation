@@ -207,5 +207,9 @@ public abstract class WebPage {
         }
         return elementsList;
     }
+    public void scrollIntoViewJS(WebElement elm) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].scrollIntoViewIfNeeded(true);", elm);
+    }
 
 }

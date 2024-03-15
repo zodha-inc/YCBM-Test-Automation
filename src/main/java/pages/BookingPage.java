@@ -1,9 +1,7 @@
 package pages;
 
 
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,6 +21,13 @@ public class BookingPage extends WebPage{
     protected String selectedStatus;
     protected String searchInput;
     protected  String noBookingPageText;
+
+    protected int bookingPagesSize;
+
+    protected int bookingPagesSizeAfterDelete;
+
+    protected int deleteFlag;
+    JavascriptExecutor jse;
 
     public BookingPage(WebDriver driver) {
         super(driver);
@@ -136,5 +141,41 @@ public class BookingPage extends WebPage{
 
     public String getSearchInput() {
         return searchInput;
+    }
+
+    public void deleteSpecificBookingPage(String bookingPageName) {
+        jse = (JavascriptExecutor) driver;
+        driver.navigate().refresh();
+        System.out.println(bookingPagesList.size());
+        bookingPagesSize = bookingPagesList.size();
+        if(bookingPagesList.size() > 0) {
+            for(WebElement element : bookingPagesList) {
+                String text = element.findElement(By.cssSelector("a[data-testtype='profileTitle']")).getText();
+                if(text.equals(bookingPageName)) {
+                    WebElement clickActions = element.findElement(
+                            By.cssSelector("button[aria-label='More Actions']"));
+                    scrollIntoViewJS(clickActions);
+                    clickActions.click();
+                    WebElement deleteButton = getWebElement("div[id='reveal-root'] div[class='clickout'] > div > div > div:nth-child(6)") ;
+                    deleteButton.click();
+                    WebElement deleteConfirmCheckbox =driver.findElement(By.cssSelector("#typeDelete"));
+                    jse.executeScript("arguments[0].click()",deleteConfirmCheckbox);
+                    List<WebElement> buttons = getElementsList("div[aria-label='Delete profile modal'] button");
+                    buttons.get(2).click();
+                    break;
+                }
+            }
+            sleepInSeconds(2);
+            bookingPagesList = getElementsList("div[data-testid='dashboardProfiles'] > div > div");
+            bookingPagesSizeAfterDelete = bookingPagesList.size();
+        }
+    }
+
+    public int getBookingPagesSize() {
+        return bookingPagesSize;
+    }
+
+    public int getBookingPagesSizeAfterDelete() {
+        return bookingPagesSizeAfterDelete;
     }
  }
