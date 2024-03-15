@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -79,6 +80,15 @@ public abstract class WebPage {
     public boolean isElementPresent(String cssSelector) {
         try {
             WebElement requiredElement = driver.findElement(By.cssSelector(cssSelector));
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean doesElementsExists(String cssSelector) {
+        try {
+            List<WebElement> requiredElements = driver.findElements(By.cssSelector(cssSelector));
         } catch (NoSuchElementException ex) {
             return false;
         }
@@ -180,6 +190,26 @@ public abstract class WebPage {
     public void forceStopPageLoad() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.stop()");
+    }
+
+    public WebElement getWebElement(String selector) {
+        WebElement element = null;
+        if(isElementPresent(selector)) {
+             element = driver.findElement(By.cssSelector(selector));
+        }
+        return element;
+    }
+
+    public List<WebElement> getElementsList(String selector) {
+        List<WebElement> elementsList = null;
+        if(doesElementsExists(selector)) {
+            elementsList = driver.findElements(By.cssSelector(selector));
+        }
+        return elementsList;
+    }
+    public void scrollIntoViewJS(WebElement elm) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].scrollIntoViewIfNeeded(true);", elm);
     }
 
 }
