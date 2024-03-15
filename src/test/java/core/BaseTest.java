@@ -54,14 +54,11 @@ public class BaseTest {
         landingPage = PageFactory.initElements(driver, LandingPage.class);
 
         if(landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
-<<<<<<< HEAD
-            driver.findElement(By.name("email")).sendKeys("john.mird+pradeep@gmail.com");
-            driver.findElement(By.name("password")).sendKeys("123123Aa@");
-=======
+
             driver.findElement(By.name("email")).sendKeys(PropertiesUtils.getLocalConfigProperty("userId"));
             driver.findElement(By.name("password")).sendKeys(PropertiesUtils.getLocalConfigProperty("password"));
->>>>>>> b3a2a567b25c0ee96a8b901520dce6d63cc2940b
             driver.findElement(By.cssSelector("form > button:nth-child(3) > span")).click();
+            
             dashboardPage = PageFactory.initElements(driver, DashboardPage.class);
             dashboardPage.declineCookies();
             dashboardPage.closeUpgradeOffer();
