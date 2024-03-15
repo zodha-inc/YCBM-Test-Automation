@@ -23,8 +23,15 @@ public class AccountPreferencesPageTest extends BaseTest {
 
     @Test(priority = 3)
     public void updateAccountCheck() {
-        accountPreferencesPage =PageFactory.initElements(driver, AccountPreferencesPage.class);
+        accountPreferencesPage = PageFactory.initElements(driver, AccountPreferencesPage.class);
         sleepInSeconds(2);
         accountPreferencesPage.updateAccount();
+    }
+
+    @Test(priority = 4)
+    public void editBillingDetailsCheck() {
+        accountPreferencesPage = PageFactory.initElements(driver, AccountPreferencesPage.class);
+        sleepInSeconds(2);
+        accountPreferencesPage.editBillingDetails();
     }
 }
