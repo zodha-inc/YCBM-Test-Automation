@@ -41,12 +41,6 @@ public class BookingsPage extends WebPage{
     @FindBy(css = "span[class^='Ellipsis_noWrap'][style^='max-width']")
     protected List<WebElement> bookingDateRangeText;
 
-//    @FindBy(css = "div[aria-label]")
-//    protected List<WebElement> dateRange;
-
-//    @FindBy(css = "span[class^='typography_bold']")
-//    protected WebElement bookingDateRangeText;
-
     public BookingsPage(WebDriver driver) {
         super(driver);
     }
@@ -79,15 +73,9 @@ public class BookingsPage extends WebPage{
 
     public void dateRangeOption(){
         actionButtons.get(4).click();
-//        baseSelectionOption.get(5).click();
     }
 
     public void dateRangeSelection(){
-//        for(WebElement dateSelect : dateRange){
-//            if(dateSelect.getText().equalsIgnoreCase(nDate)){
-//                dateSelect.click();
-//            }
-//        }
         dateMar11.click();
         dateMar30.click();
     }
