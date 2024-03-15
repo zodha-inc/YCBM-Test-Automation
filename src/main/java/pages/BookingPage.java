@@ -45,7 +45,7 @@ public class BookingPage extends WebPage {
             String status = bookingEventStatusOption.get(i).getText();
             if (status.equals("Confirmed")) {
                 WebElement actionIconButton = bookingActionIconButton.get(i);
-                clickElementWithJs(driver,actionIconButton);
+                clickElementByJS(actionIconButton);
                 sleepInSeconds(2);
                 bookingActionIconCancleOption.click();
                 sleepInSeconds(2);
@@ -67,7 +67,7 @@ public class BookingPage extends WebPage {
             String status = bookingEventStatusOption.get(i).getText();
             if (status.equals("Cancelled")) {
                 WebElement actionIconButton = bookingActionIconButton.get(i);
-                clickElementWithJs(driver,actionIconButton);
+                clickElementByJS(actionIconButton);
                 sleepInSeconds(2);
                 bookingActionIconRebookOption.click();
                 sleepInSeconds(2);
