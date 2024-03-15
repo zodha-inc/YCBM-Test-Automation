@@ -53,6 +53,7 @@ public class BaseTest {
         driver.get("https://app.youcanbook.me/#/login");
         landingPage = PageFactory.initElements(driver, LandingPage.class);
 
+
         if(landingPage.waitUntilExistXpath("//h1[contains(text(), 'Log in to your account')]")) {
 
             driver.findElement(By.name("email")).sendKeys(PropertiesUtils.getLocalConfigProperty("userId"));
