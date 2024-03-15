@@ -20,4 +20,11 @@ public class AccountPreferencesPageTest extends BaseTest {
         sleepInSeconds(2);
         accountPreferencesPage.accountOption();
     }
+
+    @Test(priority = 3)
+    public void updateAccountCheck() {
+        accountPreferencesPage =PageFactory.initElements(driver, AccountPreferencesPage.class);
+        sleepInSeconds(2);
+        accountPreferencesPage.updateAccount();
+    }
 }
