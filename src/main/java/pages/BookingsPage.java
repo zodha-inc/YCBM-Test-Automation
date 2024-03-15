@@ -31,6 +31,21 @@ public class BookingsPage extends WebPage{
     protected List<WebElement> baseSelectionOption;
 
 
+    @FindBy(css = "div[aria-label*='March 11']")
+    protected WebElement dateMar11;
+
+    @FindBy(css = "div[aria-label*='March 30']")
+    protected WebElement dateMar30;
+
+
+    @FindBy(css = "span[class^='Ellipsis_noWrap'][style^='max-width']")
+    protected List<WebElement> bookingDateRangeText;
+
+//    @FindBy(css = "div[aria-label]")
+//    protected List<WebElement> dateRange;
+
+//    @FindBy(css = "span[class^='typography_bold']")
+//    protected WebElement bookingDateRangeText;
 
     public BookingsPage(WebDriver driver) {
         super(driver);
@@ -42,7 +57,7 @@ public class BookingsPage extends WebPage{
 
     public void searchBooking(){
         filterOption.click();
-        searchBookings.sendKeys("test");
+        searchBookings.sendKeys("john");
         searchBookings.sendKeys(Keys.ENTER);
     }
 
@@ -64,7 +79,22 @@ public class BookingsPage extends WebPage{
 
     public void dateRangeOption(){
         actionButtons.get(4).click();
-        baseSelectionOption.get(5).click();
+//        baseSelectionOption.get(5).click();
     }
+
+    public void dateRangeSelection(){
+//        for(WebElement dateSelect : dateRange){
+//            if(dateSelect.getText().equalsIgnoreCase(nDate)){
+//                dateSelect.click();
+//            }
+//        }
+        dateMar11.click();
+        dateMar30.click();
+    }
+
+    public String dateRangeText(){
+        return bookingDateRangeText.get(0).getText();
+    }
+
 
 }
