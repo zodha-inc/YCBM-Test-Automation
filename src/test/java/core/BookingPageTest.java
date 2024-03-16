@@ -6,21 +6,71 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import pages.BookingPage;
+import pages.BookingCalenderPage;
+
+import pages.BookingsPage;
 
 import java.time.Duration;
 
 public class BookingPageTest extends BaseTest {
 
-    protected BookingPage bookingPage;
+    protected BookingsPage bookingsPage;
+    protected BookingCalenderPage bookingCalenderPage;
+
+    String firstName = "Kate" + Math.round(Math.random()* 1000) ;
+    String email = firstName + "@gmail.com";
+
+
+    @BeforeClass
+    public void initPage() {
+        bookingCalenderPage = PageFactory.initElements(driver, BookingCalenderPage.class);
+        bookingsPage = PageFactory.initElements(driver, BookingsPage.class);
+    }
+
 
     @Test(priority = 0)
-    public void cancleBookingTest() {
+    public void createBookingTest() {
+        SoftAssert softAssert = new SoftAssert();
+        String firstName = "Aa" + Math.round(Math.random()* 1000) ;
+        String email = firstName + "@gmail.com";
 
-        bookingPage = PageFactory.initElements(driver,BookingPage.class);
-        bookingPage.cancleBooking();
+        dashboardPage.gotoBookingsPage();
+        int originBookingsListSize = bookingsPage.getBookingsListSize();
+
+        bookingsPage.gotoDashBoard();
+        String dashBoardWindowHandle = dashboardPage.gotoSelectedBookingPage();
+
+        bookingCalenderPage.createBooking(firstName, email);
+        softAssert.assertEquals(bookingCalenderPage.getBookingConfirmMessage(),
+                "You'll receive a notification confirming the meeting details shortly.");
+
+        bookingCalenderPage.closeCurrentWindowThenSwitchToWindow(dashBoardWindowHandle);
+        dashboardPage.gotoBookingsPage();
+        softAssert.assertEquals(bookingsPage.getBookingsListSize() - originBookingsListSize, 1,
+                "Verify if one new booking added into booking list");
+
+        softAssert.assertTrue(bookingsPage.chooseSpecificBooking(firstName) != null,"Verify if the new booking inside booking list");
+
+        softAssert.assertAll();
+    }
+
+    @Test(priority = 1)
+    public void cancelBookingTest() {
+
+
+        bookingsPage.gotoDashBoard();
+        String dashBoardWindowHandle = dashboardPage.gotoSelectedBookingPage();
+
+        bookingCalenderPage.createBooking(firstName, email);
+
+
+        bookingCalenderPage.closeCurrentWindowThenSwitchToWindow(dashBoardWindowHandle);
+        dashboardPage.gotoBookingsPage();
+
+        bookingsPage.cancleBooking(firstName);
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement toastMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.toaster div.styledWrapper.toast-content")));
@@ -30,22 +80,26 @@ public class BookingPageTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test(priority = 1)
+    @Test(priority = 2)
     public void rebookCancelledBookingTest() {
 
-        bookingPage = PageFactory.initElements(driver,BookingPage.class);
-        bookingPage.rebookCancelledBooking();
+        dashboardPage.gotoBookingsPage();
+        bookingsPage.rebookCancelledBooking(firstName);
+        bookingCalenderPage.chooseDateForRebooking();
 
-        String expectedTitle = driver.getTitle();
+    }
 
-        System.out.println(expectedTitle + " :Expected title of page");
+    @Test(priority = 3)
+    public void testDeleteExistingBooking() {
+        SoftAssert sa = new SoftAssert();
+        dashboardPage.gotoBookingsPage();
+        int bookingsListSizeBeforeDelete = bookingsPage.getBookingsListSize();
+        bookingsPage.deleteExistingBooking();
 
-        SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(expectedTitle,"Select a time · Black coffee");
-        softAssert.assertAll();
-
-
-
+        sa.assertEquals(bookingsPage.getDeleteNoticeToasterText(),"The booking has been deleted.");
+        int bookingsListSizeAfterDelete = bookingsPage.getBookingsListSize();
+        sa.assertEquals(bookingsListSizeBeforeDelete-bookingsListSizeAfterDelete,1);
+        sa.assertAll();
     }
 
 }

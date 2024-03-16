@@ -78,5 +78,36 @@ public class BookingCalenderPage extends WebPage {
         driver.switchTo().window(dashboardWindowHandle);
     }
 
+    public void chooseDateForRebooking() {
+        if (isElementPresent("p[class='CookieConsent-module__controls___Be6by'] > button:first-child")) {
+            rejectCookiesBtn.click();
+        }
+        if (!availableBookingDaysList.isEmpty()) {
+            WebElement selectedBookingDay = getRandomWebElementFromList(availableBookingDaysList);
+            clickElementByJS(selectedBookingDay);
+            sleepInSeconds(1);
+            if (!abailableBookingSlotsList.isEmpty()) {
+                WebElement selectedTimeSlot = getRandomWebElementFromList(abailableBookingSlotsList);
+                clickElementByJS(selectedTimeSlot);
 
-}
+                while(true) {
+                    sleepInSeconds(1);
+                    clickElementByJS(confirmBookingBtn);
+                    try {
+                        securityCheckRefreshBtn.click();
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
+
+            } else {
+                System.out.println("Error:time slot list is empty");
+            }
+        } else {
+            System.out.println("Error: the booking available day list is empty");
+        }
+    }
+    }
+
+
+
